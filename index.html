@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="menu">
+      <div id="grid">
+          <div class="item">
+            <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank"><img src="gmail.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://flathub.org/home" target="_blank"><img src="flathub.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://en.wikipedia.org/wiki/The_Adventures_of_Tintin:_The_Secret_of_the_Unicorn_(video_game)" target="_blank"><img src="wikipedia.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://github.com" target="_blank"><img src="github.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://fonts.google.com/specimen/Comfortaa?selection.family=Comfortaa&sidebar.open" target="_blank"><img src="google-fonts.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://www.colorhexa.com" target="_blank"><img src="colorhexa.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://coolbackgrounds.io/black-background/" target="_blank"><img id="cbg-fix" src="cool-backgrounds.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://www.reddit.com/" target="_blank"><img src="reddit.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://terminalroot.com.br/" target="_blank"><img src="terminalroot.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://google.com.br/" target="_blank"><img src="google.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://youtube.com/" target="_blank"><img src="youtube.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://www.w3schools.com/" target="_blank"><img src="w3schools.png"></a>
+          </div>
+          <div class="item">
+            <a href="https://deno.land/" target="_blank"><img src="deno.svg"></a>
+          </div>
+          <!-- TO REMOVE ONE WEBSITE ITEM JUST DELETE ONE STRUCTURE ABOVE -->
+          <!-- <div class="item"> WEBSITE ITEM STRUCTURE TO ADD YOUR WEBSITES
+            <a href="YOUR WEBSITE LOCATION GOES HERE" target="_blank"><img src="YOUR IMAGE GOES HERE, use complete path for the image"></a>
+          </div> -->
+        </div>
+    </div>
+    <img id="icon" src="toggle.png">
+    <div id="blur-wall"></div>
+    <div id="side-menu">
+      <h2 id="clock">Time</h2>
+      <p id="date">Date</p>
+      <img id="weather" ondragstart="return false;">
+      <div class="theme-switcher">
+        <p class="theme-option light">Light Mode</p>
+        <p class="theme-option dark">Dark Mode</p>
+        <label id="switch">
+          <input id="check" type="checkbox" onclick="switchTheme()">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="bg-changer">
+        <div id="bg-frame"><img id="bg-info" src="bg.png" onclick="document.getElementById('image-selector').click();" ondragstart="return false;"></div>
+        <input type="file" id="image-selector" accept=".jpg, .jpeg, .png">
+        <button type="button" id="clear-button" onclick="clearBg()">Clear</button>
+      </div>
+      <div class="grid-changer">
+        <p id="column-option">Columns</p>
+        <div class="input-component">
+          <button type="button" class="remove-button" onclick="removeCol()">-</button>
+          <input type="text" id="col-input" class="grid-input" value="4" min="4" max="25" readonly>
+          <button type="button" class="add-button" onclick="addCol()">+</button>
+        </div>
+        <p id="row-option">Rows</p>
+        <div class="input-component row">
+          <button type="button" class="remove-button" onclick="removeRow()">-</button>
+          <input type="text" id="row-input" class="grid-input" value="4" min="4" max="25" readonly>
+          <button type="button" class="add-button" onclick="addRow()">+</button>
+        </div>
+      </div>
+      <button type="button" id="clear-info" onclick="clearConfigs()">Clear Configs</button>
+    </div>
+  </body>
+  <script type="text/javascript">
+    const button = document.getElementById('icon');
+    const sideMenu = document.getElementById('side-menu');
+    const clock = document.getElementById('clock');
+    const date = document.getElementById('date');
+    const weather = document.getElementById('weather');
+    const checkbox = document.getElementById('check');
+    const imageSelector = document.getElementById('image-selector');
+    const imageFrame = document.getElementById('bg-info');
+    const menu = document.getElementById('grid');
+    const menuBg = document.getElementById('menu');
+    const colInput = document.getElementById('col-input');
+    const rowInput = document.getElementById('row-input');
+    var interval;
+    var rowsNumber = localStorage.getItem("rowInfo") == null ? 4 : Number(localStorage.getItem("rowInfo"));
+    var colsNumber = localStorage.getItem("colInfo") == null ? 4 : Number(localStorage.getItem("colInfo"));
+    var verticalAlign = localStorage.getItem("vAlign") == null ? -178.4 : Number(localStorage.getItem("vAlign"));
+    var horizontalAlign = localStorage.getItem("hAlign") == null ? -202.4 : Number(localStorage.getItem("hAlign"));
+
+    window.onload = function(){
+      dark = checkbox.checked ? "-dark" : "";
+      checkbox.checked ? button.src="toggle-dark.png" : button.src="toggle.png";
+      if (localStorage.getItem("bgInfo") == null) { document.body.style.backgroundImage = "url(bg.png)"; }
+       else { document.body.style.backgroundImage = "url(" + localStorage.getItem("bgInfo") + ")"; imageFrame.src = localStorage.getItem("bgInfo"); }
+      menu.style.gridTemplateRows = "repeat(" + rowsNumber + ", 64.7px)";
+      menu.style.gridTemplateColumns = "repeat(" + colsNumber + ", 64.7px)";
+      menuBg.style.marginTop = "" + verticalAlign + "px";
+      menuBg.style.marginLeft = "" + horizontalAlign + "px";
+    }
+
+    button.addEventListener('click', function(){
+      if (sideMenu.style.right == "0%") {
+        switchTheme();
+        sideMenu.style.right = "-120%";
+        document.getElementById('blur-wall').style.right = "-120%";
+        dark = sideMenu.style.color == "rgb(0, 0, 0)" ? "-dark" : "";
+        button.src = "toggle"+dark+".png";
+        clearInterval(interval);
+      }
+      else {
+        switchTheme();
+        update(); interval = setInterval(update, 1000);
+        sideMenu.style.right = "0%";
+        document.getElementById('blur-wall').style.right = "0%";
+        dark = sideMenu.style.color == "rgb(0, 0, 0)" ? "-dark" : "";
+        button.src = "toggle-close"+dark+".png";
+      }
+    });
+
+    imageSelector.addEventListener('change', function(event){
+      const file = event.target.files[0];
+      if (file.type && file.type.indexOf('image') === -1) {
+        return;
+      }
+      else {
+        const readImage = new FileReader();
+        readImage.addEventListener('load', function(event){
+          document.body.style.backgroundImage = "url(" + event.target.result + ")";
+          imageFrame.src = event.target.result;
+          localStorage.setItem("bgInfo", event.target.result);
+        });
+        readImage.readAsDataURL(file);
+      }
+    });
+
+    const switchTheme = () => { if ( checkbox.checked == true ) { sideMenu.style.color = "#000"; button.src = "toggle-close-dark.png"; }
+     else { sideMenu.style.color = "#fff"; button.src = "toggle-close.png"; }}
+
+    const clearBg = () => { document.body.style.backgroundImage = "url('bg.png')"; localStorage.removeItem("bgInfo"); imageFrame.src = "bg.png"; }
+
+    const addCol = () => {
+      if (Number(localStorage.getItem("colInfo")) < 25) {
+        colsNumber+=1; menu.style.gridTemplateColumns = "repeat(" + colsNumber + ", 64.7px)"; localStorage.setItem("colInfo", colsNumber);
+        horizontalAlign -= 43.3;
+        menuBg.style.marginLeft = "" + horizontalAlign + "px"; localStorage.setItem("hAlign", horizontalAlign);
+        colInput.value = colsNumber;
+      }
+    }
+
+    const removeCol = () => {
+      if (Number(localStorage.getItem("colInfo")) > 4) {
+        colsNumber-=1; menu.style.gridTemplateColumns = "repeat(" + colsNumber + ", 64.7px)"; localStorage.setItem("colInfo", colsNumber);
+        horizontalAlign += 43.3;
+        menuBg.style.marginLeft = "" + horizontalAlign + "px"; localStorage.setItem("hAlign", horizontalAlign);
+        colInput.value = colsNumber;
+      }
+    }
+
+    const addRow = () => {
+      if (Number(localStorage.getItem("rowInfo")) < 25) {
+        rowsNumber+=1; menu.style.gridTemplateRows = "repeat(" + rowsNumber + ", 64.7px)"; localStorage.setItem("rowInfo", rowsNumber);
+        verticalAlign -= 35.5;
+        menuBg.style.marginTop = "" + verticalAlign + "px"; localStorage.setItem("vAlign", verticalAlign);
+        rowInput.value = rowsNumber;
+      }
+    }
+
+    const removeRow = () => {
+      if (Number(localStorage.getItem("rowInfo")) > 4) {
+        rowsNumber-=1; menu.style.gridTemplateRows = "repeat(" + rowsNumber + ", 64.7px)"; localStorage.setItem("rowInfo", rowsNumber);
+        verticalAlign += 35.5;
+        menuBg.style.marginTop = "" + verticalAlign + "px"; localStorage.setItem("vAlign", verticalAlign);
+        rowInput.value = rowsNumber;
+      }
+    }
+
+    const clearConfigs = () => {
+      localStorage.removeItem("rowInfo"); localStorage.removeItem("colInfo"); localStorage.removeItem("vAlign"); localStorage.removeItem("hAlign");
+      menu.style.gridTemplateColumns = "repeat(4, 64.7px)"; menu.style.gridTemplateRows = "repeat(4, 64.7px)"; menuBg.style.marginTop = "-178.4px"; menuBg.style.marginLeft = "-202.4px";
+      checkbox.checked = false; switchTheme(); clearBg(); colInput.value = 4; rowInput.value = 4; location.reload();
+    }
+
+    const addZero = (n) => (parseInt(n, 10) < 10 ? '0' : '') + n;
+
+    const update = () => { getTime(); getDate(); updateWeather(); }
+
+    const getTime = () => { time = new Date(); hour = time.getHours(); min = time.getMinutes(); sec = time.getSeconds();
+      clock.innerHTML = `${addZero(hour)}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`; }
+
+    const getDate = () => { calendar = new Date(); timestamp = ("0"+calendar.getDate()).slice(-2) + '/' + ("0"+(calendar.getMonth()+1)).slice(-2) + '/' + calendar.getFullYear();
+      date.innerHTML = `${timestamp}`; }
+
+    const updateWeather = () => weather.src = "http://wttr.in/_t.png?format=3";
+
+  </script>
+</html>
