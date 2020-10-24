@@ -1,5 +1,5 @@
 # Fire-Startpage
-It's a simple startpage with animations and blur effect.
+It's a simple startpage with animations and blur effect. \
 The mininum resolution recommended is 1024x768 for better experience.
 Fire-Startpage is for a desktop browser and it is cross-browser, even the blur effect. :) 
 I made it to be part of the front-end sample of my portfolio.
