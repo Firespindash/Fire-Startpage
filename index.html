@@ -6,55 +6,28 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div id="menu">
-      <div id="grid">
-          <div class="item">
-            <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank"><img src="gmail.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://flathub.org/home" target="_blank"><img src="flathub.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://en.wikipedia.org/wiki/The_Adventures_of_Tintin:_The_Secret_of_the_Unicorn_(video_game)" target="_blank"><img src="wikipedia.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://github.com" target="_blank"><img src="github.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://fonts.google.com/specimen/Comfortaa?selection.family=Comfortaa&sidebar.open" target="_blank"><img src="google-fonts.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://www.colorhexa.com" target="_blank"><img src="colorhexa.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://coolbackgrounds.io/black-background/" target="_blank"><img id="cbg-fix" src="cool-backgrounds.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://www.reddit.com/" target="_blank"><img src="reddit.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://terminalroot.com.br/" target="_blank"><img src="terminalroot.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://google.com.br/" target="_blank"><img src="google.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://youtube.com/" target="_blank"><img src="youtube.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://www.w3schools.com/" target="_blank"><img src="w3schools.png"></a>
-          </div>
-          <div class="item">
-            <a href="https://deno.land/" target="_blank"><img src="deno.svg"></a>
-          </div>
-          <!-- TO REMOVE ONE WEBSITE ITEM JUST DELETE ONE STRUCTURE ABOVE -->
-          <!-- <div class="item"> WEBSITE ITEM STRUCTURE TO ADD YOUR WEBSITES
-            <a href="YOUR WEBSITE LOCATION GOES HERE" target="_blank"><img src="YOUR IMAGE GOES HERE, use complete path for the image"></a>
-          </div> -->
+  	<div id="menu-container">
+      <div id="menu">
+        <div id="grid"></div>
+      </div>
+    </div>
+    <div id="dialog">
+      <div id="input-bg">
+        <div id="input-search">
+          <img src="magnifier.png" id="search-icon">
+          <input type="text" id="input-name" placeholder="Type the website name" autocomplete="off">
+          <label for="input-name" id="line"></label>
         </div>
+      </div>
+      <button type="button" class="dialog-btn" id="img-btn" onclick="document.getElementById('input-image').click();">Upload Image</button>
+      <input type="file" id="input-image" accept=".jpg, .jpeg, .png, .svg">
+      <p id="file-name"></p>
+      <div id="confirm">
+      	<button type="button" class="dialog-btn confirm-btn" onclick="closeDialog()">Cancel</button>
+      	<button type="button" class="dialog-btn confirm-btn" id="ok-btn" onclick="addWrapper()">Ok</button>
+      </div>
     </div>
     <img id="icon" src="toggle.png">
-    <div id="blur-wall"></div>
     <div id="side-menu">
       <h2 id="clock">Time</h2>
       <p id="date">Date</p>
@@ -86,8 +59,9 @@
           <button type="button" class="add-button" onclick="addRow()">+</button>
         </div>
       </div>
+      <button type="button" id="edit-mode" onclick="editMode()">Edit Mode</button> 
       <button type="button" id="clear-info" onclick="clearConfigs()">Clear Configs</button>
     </div>
   </body>
-  <script src="main.js"></script>
+  <script type="text/javascript" src="main.js"></script>
 </html>
